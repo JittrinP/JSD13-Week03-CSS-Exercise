@@ -15,7 +15,7 @@ p.highlight {
   color: blue;
 }
 
-.highlight {
+p.highlight {
   color: red;
 }
 
@@ -26,7 +26,7 @@ p.highlight {
    Fix: remove the extra specificity from the first selector.
 */
 
-.card p#special {
+p {
   color: black;
 }
 
@@ -49,4 +49,6 @@ p.highlight {
   border: none;
   border-radius: 6px;
   font-size: 1rem;
+
+  color: white;
 }
