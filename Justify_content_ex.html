@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CSS Flexbox Playground — เรียนรู้ด้วยภาพ ลองเองได้</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#12141c;
+    --panel:#1b1e2c;
+    --panel-2:#212437;
+    --border:#2c2f45;
+    --text:#eceef5;
+    --muted:#9296ac;
+    --amber:#ffc857;
+    --teal:#5eead4;
+    --coral:#ff7a68;
+    --violet:#9d8dff;
+    --sky:#6fb6ff;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0; background:var(--bg); color:var(--text); font-family:'Sarabun', sans-serif; line-height:1.6;}
+  code, .mono{font-family:'JetBrains Mono', monospace;}
+
+  .wrap{max-width:1040px; margin:0 auto; padding:0 24px;}
+  section{padding:56px 0;}
+  section + section{border-top:1px solid var(--border);}
+
+  h1,h2,h3{font-family:'Sarabun', sans-serif; font-weight:700; margin:0 0 12px;}
+  .eyebrow{
+    font-family:'JetBrains Mono', monospace; color:var(--amber); font-size:13px;
+    letter-spacing:.06em; text-transform:lowercase; margin-bottom:10px;
+    display:flex; align-items:center; gap:8px;
+  }
+  .eyebrow::before{content:"//"; opacity:.7;}
+  h2{font-size:clamp(24px,3.4vw,32px);}
+  p.lead{color:var(--muted); font-size:16px; max-width:660px;}
+
+  /* ---------- top nav ---------- */
+  .topnav{position:sticky; top:0; z-index:50; background:rgba(18,20,28,.92); backdrop-filter:blur(8px); border-bottom:1px solid var(--border);}
+  .navwrap{display:flex; align-items:center; justify-content:space-between; padding:14px 24px; max-width:1040px; margin:0 auto;}
+  .navbrand{color:var(--amber); font-size:13px; letter-spacing:.05em;}
+  .navlinks{display:flex; gap:20px;}
+  .navlinks a{color:var(--muted); text-decoration:none; font-family:'JetBrains Mono',monospace; font-size:12.5px; transition:.15s;}
+  .navlinks a:hover{color:var(--text);}
+
+  /* ---------- hero ---------- */
+  .hero{padding-top:48px;}
+  .hero h1{font-size:clamp(32px,4.6vw,48px); letter-spacing:-0.01em;}
+  .hero h1 span{color:var(--amber);}
+  .hero p.lead{font-size:17px;}
+
+  /* ---------- panels ---------- */
+  .panel{background:var(--panel); border:1px solid var(--border); border-radius:14px; padding:26px;}
+  .panel + .panel{margin-top:20px;}
+  .panel-header{display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; margin-bottom:4px;}
+  .panel-header h3{margin:0; font-size:17px;}
+  .hint{font-size:13px; color:var(--muted); margin:6px 0 16px;}
+
+  /* stage / container box */
+  .container-box{
+    background:var(--panel-2); border:2px solid var(--sky); border-radius:10px;
+    padding:16px; position:relative; margin:0 auto; max-width:100%;
+  }
+  .container-box .container-tag{position:absolute; top:-11px; left:12px; background:var(--bg); padding:0 6px; font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--sky);}
+  .container-box .container-size{position:absolute; top:-11px; right:12px; background:var(--bg); padding:0 6px; font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--muted);}
+  .flexline{display:flex; min-height:64px;}
+
+  .item{
+    display:flex; align-items:center; justify-content:center;
+    min-width:56px; height:56px; border-radius:8px;
+    font-family:'JetBrains Mono',monospace; font-weight:700; font-size:15px;
+    color:#0f1018; flex-shrink:0; cursor:pointer; transition:outline-color .15s;
+    outline:2px solid transparent; outline-offset:2px;
+  }
+  .item.selected{outline-color:var(--amber);}
+  .i1{background:var(--amber);} .i2{background:var(--teal);} .i3{background:var(--coral);}
+  .i4{background:var(--violet);} .i5{background:var(--sky);} .i6{background:#ffe08a;}
+
+  /* dimension ruler */
+  .dim-ruler{position:relative; height:30px; margin-top:4px;}
+  .dim-seg{position:absolute; top:8px; height:14px;}
+  .dim-seg .bar{position:absolute; left:0; right:0; top:6px; border-top:1px dashed rgba(255,200,87,.6);}
+  .dim-seg .tick{position:absolute; top:0; width:1px; height:14px; background:rgba(255,200,87,.6);}
+  .dim-seg .tick.left{left:0;} .dim-seg .tick.right{right:0;}
+  .dim-seg .label{
+    position:absolute; top:-3px; left:50%; transform:translateX(-50%);
+    background:var(--panel-2); padding:0 5px; z-index:2;
+    font-family:'JetBrains Mono',monospace; font-size:10.5px; color:var(--amber); white-space:nowrap;
+  }
+
+  /* control groups */
+  .controls-row{display:flex; flex-wrap:wrap; gap:20px; margin-top:20px;}
+  .control-group{display:flex; flex-direction:column; gap:8px;}
+  .control-group .glabel{font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--muted);}
+  .pillrow{display:flex; flex-wrap:wrap; gap:6px;}
+  button.pill{
+    font-family:'JetBrains Mono',monospace; font-size:12.5px; color:var(--text); background:transparent;
+    border:1px solid var(--border); padding:7px 12px; border-radius:100px; cursor:pointer; transition:.15s ease;
+  }
+  button.pill:hover{border-color:var(--amber); color:var(--amber);}
+  button.pill.active{background:var(--amber); border-color:var(--amber); color:#0f1018;}
+
+  .width-control{display:flex; align-items:center; gap:14px; margin-bottom:20px; flex-wrap:wrap;}
+  .width-control input[type=range]{flex:1; accent-color:var(--amber); max-width:360px;}
+  .width-control .glabel{margin-bottom:0;}
+
+  input[type=range]{accent-color:var(--amber);}
+
+  /* code readout */
+  .codebox{
+    background:#0e0f17; border:1px solid var(--border); border-radius:10px;
+    padding:16px 18px; font-family:'JetBrains Mono',monospace; font-size:13.5px; overflow-x:auto;
+  }
+  .codebox .k{color:#8a8fa3;} .codebox .p{color:var(--sky);} .codebox .v{color:var(--amber);} .codebox .punct{color:#5b5f78;}
+
+  /* add box button */
+  .add-box-btn{
+    font-family:'JetBrains Mono',monospace; font-size:13px; color:#0f1018; background:var(--amber);
+    border:none; border-radius:100px; padding:9px 16px; cursor:pointer; font-weight:700; transition:filter .15s;
+  }
+  .add-box-btn:hover{filter:brightness(1.08);}
+  .add-box-btn:disabled{opacity:.35; cursor:not-allowed; filter:none;}
+
+  /* item editor rows */
+  .item-row{
+    display:flex; align-items:center; gap:16px; flex-wrap:wrap;
+    padding:14px 16px; background:var(--panel-2); border:1px solid var(--border); border-radius:10px;
+    margin-top:10px; transition:border-color .15s ease; cursor:pointer;
+  }
+  .item-row.selected{border-color:var(--amber);}
+  .item-row .item-id{
+    width:34px; height:34px; border-radius:8px; display:flex; align-items:center; justify-content:center;
+    font-family:'JetBrains Mono',monospace; font-weight:700; color:#0f1018; flex-shrink:0;
+  }
+  .item-fields{display:flex; flex-wrap:wrap; gap:16px; flex:1;}
+  .item-field{display:flex; flex-direction:column; gap:4px;}
+  .item-field .flabel{font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--muted);}
+  .stepper{display:flex; align-items:center; gap:6px;}
+  .stepper button{
+    width:24px; height:24px; border-radius:6px; border:1px solid var(--border); background:var(--panel);
+    color:var(--text); cursor:pointer; font-family:'JetBrains Mono',monospace; font-size:14px; line-height:1;
+  }
+  .stepper button:hover{border-color:var(--amber); color:var(--amber);}
+  .stepper .val{min-width:26px; text-align:center; font-family:'JetBrains Mono',monospace; font-size:13px;}
+  .stepper-input{
+    width:52px; text-align:center; background:var(--panel); border:1px solid var(--border); border-radius:6px;
+    color:var(--text); font-family:'JetBrains Mono',monospace; font-size:13px; padding:3px 2px;
+  }
+  .stepper-input:focus{outline:none; border-color:var(--amber);}
+  .stepper-input::-webkit-outer-spin-button, .stepper-input::-webkit-inner-spin-button{-webkit-appearance:none; margin:0;}
+  .stepper-input[type=number]{-moz-appearance:textfield;}
+  select.mini{
+    font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--text);
+    background:var(--panel); border:1px solid var(--border); border-radius:6px; padding:5px 7px;
+  }
+  .remove-btn{
+    width:28px; height:28px; border-radius:8px; border:1px solid var(--border); background:transparent;
+    color:var(--muted); cursor:pointer; font-size:16px; line-height:1; flex-shrink:0; margin-left:auto;
+  }
+  .remove-btn:hover{border-color:var(--coral); color:var(--coral);}
+  .remove-btn:disabled{opacity:.3; cursor:not-allowed;}
+
+  /* ---------- justify-content deep dive ---------- */
+  .jc-intro-diagram{display:flex; gap:22px; flex-wrap:wrap; margin-top:20px; margin-bottom:8px;}
+  .jc-legend{display:flex; align-items:center; gap:8px; font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--muted);}
+  .jc-legend .swatch{width:14px; height:14px; border-radius:4px;}
+  .jc-legend .swatch.box{background:var(--amber);}
+  .jc-legend .swatch.line{width:18px; height:2px; border-top:2px dashed rgba(255,200,87,.75); background:none; border-radius:0;}
+  .jc-legend .swatch.edge{width:14px; height:14px; border:2px solid var(--sky); background:none;}
+
+  .jc-card{margin-top:22px;}
+  .jc-card-head{display:flex; align-items:baseline; justify-content:space-between; gap:12px; flex-wrap:wrap; margin-bottom:10px;}
+  .jc-card-head .jc-name{font-family:'JetBrains Mono',monospace; font-weight:700; font-size:16px; color:var(--amber);}
+  .jc-card-head .jc-usecase{font-size:13px; color:var(--muted);}
+  .jc-explain{margin-top:12px; color:var(--muted); font-size:14px; max-width:680px;}
+  .jc-explain b{color:var(--text);}
+
+  /* cheat sheet */
+  table.cheat{width:100%; border-collapse:collapse; margin-top:18px;}
+  table.cheat th, table.cheat td{text-align:left; padding:10px 12px; border-bottom:1px solid var(--border); font-size:14px; vertical-align:top;}
+  table.cheat th{font-family:'JetBrains Mono',monospace; color:var(--muted); font-weight:500; font-size:12px; text-transform:lowercase;}
+  table.cheat td.prop{font-family:'JetBrains Mono',monospace; color:var(--teal); white-space:nowrap;}
+  table.cheat td.val{font-family:'JetBrains Mono',monospace; color:var(--amber); white-space:nowrap;}
+
+  footer{padding:40px 0 60px; text-align:center; color:var(--muted); font-size:13px;}
+
+  @media (max-width:640px){
+    section{padding:40px 0;}
+    .panel{padding:18px;}
+    .navlinks{gap:12px;}
+    .item-row{flex-direction:column; align-items:flex-start;}
+    .remove-btn{margin-left:0;}
+  }
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="navwrap">
+    <span class="navbrand mono">flex/lab</span>
+    <div class="navlinks">
+      <a href="#playground">Playground</a>
+      <a href="#justify">justify-content</a>
+      <a href="#cheatsheet">Cheat sheet</a>
+    </div>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">display: flex</div>
+    <h1>เข้าใจ <span>Flexbox</span><br>ด้วยตา ไม่ใช่ท่องจำ</h1>
+    <p class="lead">Flexbox คือวิธีจัดเรียง "กล่อง" (item) ภายใน "กล่องแม่" (container) ด้านล่างเป็นสนามเด็กเล่นที่เพิ่ม/ลบกล่องได้ ตั้งค่าแต่ละกล่องแยกกันได้ และผสมคำสั่งของ container หลายตัวพร้อมกันได้จริง โค้ดจะอัปเดตให้ตรงกับสิ่งที่ลองเล่นเสมอ</p>
+  </div>
+</section>
+
+<section id="playground">
+  <div class="wrap">
+    <div class="eyebrow">สนามเด็กเล่น</div>
+    <h2>Flexbox Playground</h2>
+    <p class="lead">คลิกที่กล่องในสนาม หรือแถวด้านล่าง เพื่อไฮไลต์กล่องที่กำลังแก้ไข ปรับ property ของ container กับของแต่ละกล่องพร้อมกันได้เลย</p>
+
+    <div class="panel" style="margin-top:22px;">
+      <div class="width-control">
+        <span class="glabel">ความกว้าง container</span>
+        <input type="range" id="pg-width-slider" min="320" max="900" value="680">
+        <span class="mono" id="pg-width-value" style="color:var(--amber); min-width:56px;">680px</span>
+      </div>
+
+      <div class="container-box" id="pg-wrap" style="width:680px;">
+        <span class="container-tag">.container</span>
+        <span class="container-size" id="pg-flex-size">680 × 64 px</span>
+        <div class="flexline" id="pg-flex"></div>
+        <div class="dim-ruler" id="pg-ruler"></div>
+      </div>
+
+      <div class="controls-row">
+        <div class="control-group">
+          <span class="glabel">flex-direction</span>
+          <div class="pillrow" data-pgprop="flex-direction">
+            <button class="pill active" data-value="row">row</button>
+            <button class="pill" data-value="row-reverse">row-reverse</button>
+            <button class="pill" data-value="column">column</button>
+            <button class="pill" data-value="column-reverse">column-reverse</button>
+          </div>
+        </div>
+        <div class="control-group">
+          <span class="glabel">flex-wrap</span>
+          <div class="pillrow" data-pgprop="flex-wrap">
+            <button class="pill active" data-value="nowrap">nowrap</button>
+            <button class="pill" data-value="wrap">wrap</button>
+            <button class="pill" data-value="wrap-reverse">wrap-reverse</button>
+          </div>
+        </div>
+        <div class="control-group">
+          <span class="glabel">justify-content</span>
+          <div class="pillrow" data-pgprop="justify-content">
+            <button class="pill active" data-value="flex-start">flex-start</button>
+            <button class="pill" data-value="center">center</button>
+            <button class="pill" data-value="flex-end">flex-end</button>
+            <button class="pill" data-value="space-between">space-between</button>
+            <button class="pill" data-value="space-around">space-around</button>
+            <button class="pill" data-value="space-evenly">space-evenly</button>
+          </div>
+        </div>
+        <div class="control-group">
+          <span class="glabel">align-items</span>
+          <div class="pillrow" data-pgprop="align-items">
+            <button class="pill active" data-value="stretch">stretch</button>
+            <button class="pill" data-value="flex-start">flex-start</button>
+            <button class="pill" data-value="center">center</button>
+            <button class="pill" data-value="flex-end">flex-end</button>
+            <button class="pill" data-value="baseline">baseline</button>
+          </div>
+        </div>
+        <div class="control-group">
+          <span class="glabel">gap</span>
+          <div style="display:flex; align-items:center; gap:10px;">
+            <input type="range" id="pg-gap-slider" min="0" max="48" value="10" style="width:140px;">
+            <span class="mono" id="pg-gap-value" style="color:var(--amber);">10px</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-header">
+        <h3>กล่อง (items) — <span id="pg-item-count">3</span> ชิ้น</h3>
+        <button class="add-box-btn" id="pg-add-box" type="button">+ เพิ่มกล่อง</button>
+      </div>
+      <p class="hint">กำหนด width / height ของแต่ละกล่องเองได้ (ปรับทีละ 8px) พร้อม flex-grow / flex-shrink / flex-basis / align-self / order แยกทีละกล่อง — กดลบได้เหลืออย่างน้อย 1 กล่อง เพิ่มได้สูงสุด 6 กล่อง</p>
+      <div id="pg-item-list"></div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-header"><h3>โค้ดตอนนี้</h3></div>
+      <div class="codebox" id="pg-code"></div>
+    </div>
+  </div>
+</section>
+
+<section id="justify">
+  <div class="wrap">
+    <div class="eyebrow">โฟกัสวันนี้</div>
+    <h2>justify-content — จัดของตาม "แกนหลัก"</h2>
+    <p class="lead">แกนหลัก (main axis) คือทิศทางที่ item เรียงต่อกัน (ปกติคือแนวนอน) justify-content สั่งว่าจะดัน item ไปทางไหนของแกนนั้น และช่องว่างที่เหลือจะถูกจัดวางยังไง — กำหนดกล่อง <b style="color:var(--text)">.container</b> (เส้นขอบสีฟ้า) ไว้ชัดเจน แล้วขึ้น "เลขระยะห่าง" จริงเป็น px ให้เห็นทุกช่อง เทียบกันทั้ง 6 แบบ</p>
+
+    <div class="jc-intro-diagram">
+      <span class="jc-legend"><span class="swatch edge"></span> เส้นขอบ = ตัว container ที่กำหนดขนาดไว้</span>
+      <span class="jc-legend"><span class="swatch box"></span> item ภายใน container</span>
+      <span class="jc-legend"><span class="swatch line"></span> เส้นวัดระยะ + ตัวเลข px จริงที่วัดได้</span>
+    </div>
+
+    <div class="width-control" style="background:var(--panel); border:1px solid var(--border); border-radius:12px; padding:16px 20px; margin-top:20px;">
+      <span class="glabel">ลองปรับความกว้าง container ดู (ทุกตัวอย่างด้านล่างอัปเดตพร้อมกัน)</span>
+      <input type="range" id="jc-width-slider" min="320" max="900" value="640">
+      <span class="mono" id="jc-width-value" style="color:var(--amber); min-width:56px;">640px</span>
+    </div>
+
+    <div class="jc-card">
+      <div class="jc-card-head">
+        <span class="jc-name">flex-start <span style="color:var(--muted); font-weight:400;">(ค่าเริ่มต้น)</span></span>
+        <span class="jc-usecase">ใช้เมื่อ: อยากให้เนื้อหาชิดขอบตามปกติ เช่น เมนูชิดซ้าย</span>
+      </div>
+      <div class="container-box" id="jc-wrap-flex-start">
+        <span class="container-tag">.container</span>
+        <span class="container-size" id="jc-flex-flex-start-size">640 × 64 px</span>
+        <div class="flexline" id="jc-flex-flex-start" style="justify-content:flex-start; gap:10px;">
+          <div class="item i1">1</div><div class="item i2">2</div><div class="item i3">3</div><div class="item i4">4</div>
+        </div>
+        <div class="dim-ruler" id="jc-ruler-flex-start"></div>
+      </div>
+      <p class="jc-explain">item ทุกชิ้นชนกันชิดจุดเริ่มต้นของแกน (ชิดซ้าย) ระยะห่าง<b>ระหว่างกล่อง</b>มาจากค่า <code class="mono">gap</code> (10px) ล้วน ๆ ส่วนช่องว่างที่เหลือทั้งหมดของ container จะไปกองอยู่<b>ท้ายแถว</b>ฝั่งเดียว</p>
+      <div class="codebox"><span class="p">justify-content</span><span class="punct">:</span> <span class="v">flex-start</span><span class="punct">;</span></div>
+    </div>
+
+    <div class="jc-card">
+      <div class="jc-card-head">
+        <span class="jc-name">flex-end</span>
+        <span class="jc-usecase">ใช้เมื่อ: ปุ่มหรือไอคอนที่ต้องชิดขวาเสมอ เช่นปุ่ม "ถัดไป"</span>
+      </div>
+      <div class="container-box" id="jc-wrap-flex-end">
+        <span class="container-tag">.container</span>
+        <span class="container-size" id="jc-flex-flex-end-size">640 × 64 px</span>
+        <div class="flexline" id="jc-flex-flex-end" style="justify-content:flex-end; gap:10px;">
+          <div class="item i1">1</div><div class="item i2">2</div><div class="item i3">3</div><div class="item i4">4</div>
+        </div>
+        <div class="dim-ruler" id="jc-ruler-flex-end"></div>
+      </div>
+      <p class="jc-explain">กลับด้านจาก flex-start พอดี — item ชิดจุดสิ้นสุดของแกน (ชิดขวา) ช่องว่างที่เหลือทั้งหมดไปกองอยู่<b>หน้าแถว</b>แทน</p>
+      <div class="codebox"><span class="p">justify-content</span><span class="punct">:</span> <span class="v">flex-end</span><span class="punct">;</span></div>
+    </div>
+
+    <div class="jc-card">
+      <div class="jc-card-head">
+        <span class="jc-name">center</span>
+        <span class="jc-usecase">ใช้เมื่อ: หน้า landing, โลโก้ หรือปุ่ม call-to-action เดี่ยว ๆ ตรงกลางจอ</span>
+      </div>
+      <div class="container-box" id="jc-wrap-center">
+        <span class="container-tag">.container</span>
+        <span class="container-size" id="jc-flex-center-size">640 × 64 px</span>
+        <div class="flexline" id="jc-flex-center" style="justify-content:center; gap:10px;">
+          <div class="item i1">1</div><div class="item i2">2</div><div class="item i3">3</div><div class="item i4">4</div>
+        </div>
+        <div class="dim-ruler" id="jc-ruler-center"></div>
+      </div>
+      <p class="jc-explain">กลุ่ม item ทั้งก้อนถูกดันไปกึ่งกลาง container พอดี — ระยะว่าง<b>ซ้ายสุดกับขวาสุด</b>จะเท่ากันเป๊ะเสมอ ไม่ว่าจะปรับความกว้าง container แค่ไหน ส่วนระยะระหว่างกล่องยังเป็นค่า gap ปกติ</p>
+      <div class="codebox"><span class="p">justify-content</span><span class="punct">:</span> <span class="v">center</span><span class="punct">;</span></div>
+    </div>
+
+    <div class="jc-card">
+      <div class="jc-card-head">
+        <span class="jc-name">space-between</span>
+        <span class="jc-usecase">ใช้เมื่อ: navbar ที่อยากให้โลโก้ชิดซ้าย เมนูชิดขวา</span>
+      </div>
+      <div class="container-box" id="jc-wrap-space-between">
+        <span class="container-tag">.container</span>
+        <span class="container-size" id="jc-flex-space-between-size">640 × 64 px</span>
+        <div class="flexline" id="jc-flex-space-between" style="justify-content:space-between;">
+          <div class="item i1">1</div><div class="item i2">2</div><div class="item i3">3</div><div class="item i4">4</div>
+        </div>
+        <div class="dim-ruler" id="jc-ruler-space-between"></div>
+      </div>
+      <p class="jc-explain">item ชิ้นแรกชิด<b>ขอบซ้ายสุด</b> ชิ้นสุดท้ายชิด<b>ขอบขวาสุด</b>เสมอ (ระยะหัว-ท้าย ≈ 0) ที่เหลือถูกแบ่ง<b>เฉพาะช่องระหว่างกล่อง</b>ให้เท่ากันทุกช่อง</p>
+      <div class="codebox"><span class="p">justify-content</span><span class="punct">:</span> <span class="v">space-between</span><span class="punct">;</span></div>
+    </div>
+
+    <div class="jc-card">
+      <div class="jc-card-head">
+        <span class="jc-name">space-around</span>
+        <span class="jc-usecase">ใช้เมื่อ: แถวไอคอนโซเชียลที่อยากให้มีลมหายใจรอบขอบบ้าง</span>
+      </div>
+      <div class="container-box" id="jc-wrap-space-around">
+        <span class="container-tag">.container</span>
+        <span class="container-size" id="jc-flex-space-around-size">640 × 64 px</span>
+        <div class="flexline" id="jc-flex-space-around" style="justify-content:space-around;">
+          <div class="item i1">1</div><div class="item i2">2</div><div class="item i3">3</div><div class="item i4">4</div>
+        </div>
+        <div class="dim-ruler" id="jc-ruler-space-around"></div>
+      </div>
+      <p class="jc-explain">ทุกกล่องได้พื้นที่ "รอบตัว" เท่ากัน แต่ระยะ<b>หัวสุด-ท้ายสุด</b>ที่เห็นจริงจะเป็น<b>ครึ่งเดียว</b>ของระยะระหว่างกล่องตรงกลาง เพราะกล่องริมมีพื้นที่รอบตัวแค่ฝั่งเดียวที่ติดขอบ</p>
+      <div class="codebox"><span class="p">justify-content</span><span class="punct">:</span> <span class="v">space-around</span><span class="punct">;</span></div>
+    </div>
+
+    <div class="jc-card">
+      <div class="jc-card-head">
+        <span class="jc-name">space-evenly</span>
+        <span class="jc-usecase">ใช้เมื่อ: ต้องการความสมมาตรสมบูรณ์แบบ เช่น step ของฟอร์มหลายขั้นตอน</span>
+      </div>
+      <div class="container-box" id="jc-wrap-space-evenly">
+        <span class="container-tag">.container</span>
+        <span class="container-size" id="jc-flex-space-evenly-size">640 × 64 px</span>
+        <div class="flexline" id="jc-flex-space-evenly" style="justify-content:space-evenly;">
+          <div class="item i1">1</div><div class="item i2">2</div><div class="item i3">3</div><div class="item i4">4</div>
+        </div>
+        <div class="dim-ruler" id="jc-ruler-space-evenly"></div>
+      </div>
+      <p class="jc-explain">ต่างจาก space-around ตรงที่<b>ทุกช่องเท่ากันหมดจริง ๆ</b> รวมถึงช่องหัว-ท้ายด้วย ไม่มีช่องไหนเป็นครึ่งหนึ่งของอีกช่อง</p>
+      <div class="codebox"><span class="p">justify-content</span><span class="punct">:</span> <span class="v">space-evenly</span><span class="punct">;</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="cheatsheet">
+  <div class="wrap">
+    <div class="eyebrow">สรุปไว้เปิดดูตอนทำงานจริง</div>
+    <h2>Flexbox Cheat Sheet</h2>
+    <div class="panel">
+      <table class="cheat">
+        <tr><th>Property</th><th>ใส่ที่</th><th>ค่าที่ใช้บ่อย</th><th>ทำหน้าที่</th></tr>
+        <tr><td class="prop">display</td><td>container</td><td class="val">flex</td><td>เปิดโหมด flexbox</td></tr>
+        <tr><td class="prop">flex-direction</td><td>container</td><td class="val">row / column</td><td>กำหนดว่าแกนหลักไปทางไหน</td></tr>
+        <tr><td class="prop">flex-wrap</td><td>container</td><td class="val">wrap / nowrap</td><td>ให้ตัดขึ้นบรรทัดใหม่หรือไม่</td></tr>
+        <tr><td class="prop">justify-content</td><td>container</td><td class="val">center / space-between</td><td>จัดตำแหน่งบนแกนหลัก</td></tr>
+        <tr><td class="prop">align-items</td><td>container</td><td class="val">center / stretch</td><td>จัดตำแหน่งบนแกนขวาง</td></tr>
+        <tr><td class="prop">gap</td><td>container</td><td class="val">10px</td><td>ระยะห่างระหว่าง item</td></tr>
+        <tr><td class="prop">flex-grow</td><td>item</td><td class="val">0 / 1</td><td>ขยายกินที่ว่างเท่าไหร่</td></tr>
+        <tr><td class="prop">flex-shrink</td><td>item</td><td class="val">0 / 1</td><td>ยอมยุบเล็กลงตอนพื้นที่ไม่พอไหม</td></tr>
+        <tr><td class="prop">flex-basis</td><td>item</td><td class="val">auto / 200px</td><td>ขนาดตั้งต้นก่อนคำนวณ grow/shrink</td></tr>
+        <tr><td class="prop">align-self</td><td>item</td><td class="val">center</td><td>override align-items เฉพาะกล่องนี้</td></tr>
+        <tr><td class="prop">order</td><td>item</td><td class="val">-1 / 1</td><td>สลับลำดับการแสดงผลโดยไม่ต้องแก้ HTML</td></tr>
+      </table>
+    </div>
+    <p class="lead" style="margin-top:18px;">จำหลักง่าย ๆ: <b style="color:var(--text)">คุม container = จัดกลุ่ม, คุม item = คุมตัวเอง</b></p>
+  </div>
+</section>
+
+<footer>ทำเพื่อฝึก HTML/CSS — ลองแก้โค้ดในไฟล์นี้เล่นต่อได้เลย 🙂</footer>
+
+<script>
+  /* ================= generic gap-ruler measurement (reused by playground + justify demos) ================= */
+  function renderGapRuler(flexEl, rulerEl, sizeEl){
+    if(!flexEl || !rulerEl) return;
+    const rect = flexEl.getBoundingClientRect();
+    if(sizeEl) sizeEl.textContent = Math.round(rect.width) + ' × ' + Math.round(rect.height) + ' px';
+    const items = Array.from(flexEl.children);
+    rulerEl.innerHTML = '';
+    if(items.length === 0) return;
+    const rects = items.map(function(it){ return it.getBoundingClientRect(); });
+    const segments = [];
+    segments.push([0, rects[0].left - rect.left]);
+    for(let i = 0; i < rects.length - 1; i++){
+      segments.push([rects[i].right - rect.left, rects[i+1].left - rect.left]);
+    }
+    segments.push([rects[rects.length - 1].right - rect.left, rect.width]);
+    segments.forEach(function(seg){
+      const start = seg[0], end = seg[1], w = end - start;
+      if(w < 2) return;
+      const div = document.createElement('div');
+      div.className = 'dim-seg';
+      div.style.left = start + 'px';
+      div.style.width = w + 'px';
+      div.innerHTML = '<span class="bar"></span><span class="tick left"></span><span class="tick right"></span><span class="label">' + Math.round(w) + 'px</span>';
+      rulerEl.appendChild(div);
+    });
+  }
+
+  /* ================= justify-content deep dive ================= */
+  const JC_VALUES = ['flex-start','flex-end','center','space-between','space-around','space-evenly'];
+
+  function measureJC(value){
+    renderGapRuler(
+      document.getElementById('jc-flex-' + value),
+      document.getElementById('jc-ruler-' + value),
+      document.getElementById('jc-flex-' + value + '-size')
+    );
+  }
+  function renderAllJC(){ JC_VALUES.forEach(measureJC); }
+
+  if('ResizeObserver' in window){
+    const roJC = new ResizeObserver(function(){ renderAllJC(); });
+    JC_VALUES.forEach(function(v){
+      const el = document.getElementById('jc-wrap-' + v);
+      if(el) roJC.observe(el);
+    });
+  } else {
+    window.addEventListener('resize', renderAllJC);
+  }
+
+  const jcWidthSlider = document.getElementById('jc-width-slider');
+  const jcWidthValue = document.getElementById('jc-width-value');
+  jcWidthSlider.addEventListener('input', function(){
+    const v = jcWidthSlider.value + 'px';
+    jcWidthValue.textContent = v;
+    JC_VALUES.forEach(function(val){
+      const el = document.getElementById('jc-wrap-' + val);
+      if(el) el.style.width = v;
+    });
+    renderAllJC();
+  });
+  jcWidthSlider.dispatchEvent(new Event('input'));
+
+  /* ================= playground ================= */
+  let pgItems = [
+    {id:1, grow:0, shrink:1, basis:'auto', alignSelf:'auto', order:0, width:56, height:56},
+    {id:2, grow:0, shrink:1, basis:'auto', alignSelf:'auto', order:0, width:56, height:56},
+    {id:3, grow:0, shrink:1, basis:'auto', alignSelf:'auto', order:0, width:56, height:56}
+  ];
+  let pgNextId = 4;
+  const FIELD_CONFIG = {
+    grow: {min:0, max:20, step:1},
+    shrink: {min:0, max:20, step:1},
+    order: {min:-10, max:10, step:1},
+    width: {min:24, max:240, step:8},
+    height: {min:24, max:240, step:8}
+  };
+  let pgSelectedId = null;
+  const pgContainer = {
+    'flex-direction':'row', 'flex-wrap':'nowrap',
+    'justify-content':'flex-start', 'align-items':'stretch', gap:10
+  };
+  const COLOR_CLASSES = ['i1','i2','i3','i4','i5','i6'];
+  function colorFor(idx){ return COLOR_CLASSES[idx % COLOR_CLASSES.length]; }
+
+  function renderStage(){
+    const flexEl = document.getElementById('pg-flex');
+    flexEl.style.flexDirection = pgContainer['flex-direction'];
+    flexEl.style.flexWrap = pgContainer['flex-wrap'];
+    flexEl.style.justifyContent = pgContainer['justify-content'];
+    flexEl.style.alignItems = pgContainer['align-items'];
+    flexEl.style.gap = pgContainer.gap + 'px';
+    flexEl.innerHTML = '';
+    pgItems.forEach(function(it, idx){
+      const div = document.createElement('div');
+      div.className = 'item ' + colorFor(idx) + (it.id === pgSelectedId ? ' selected' : '');
+      div.textContent = it.id;
+      div.style.flexGrow = it.grow;
+      div.style.flexShrink = it.shrink;
+      div.style.flexBasis = it.basis;
+      div.style.alignSelf = it.alignSelf;
+      div.style.order = it.order;
+      div.style.minWidth = '0';
+      div.style.minHeight = '0';
+      div.style.width = it.width + 'px';
+      div.style.height = it.height + 'px';
+      div.addEventListener('click', function(){
+        pgSelectedId = (pgSelectedId === it.id) ? null : it.id;
+        renderAll();
+      });
+      flexEl.appendChild(div);
+    });
+  }
+
+  function fieldStepper(key, label, value){
+    const cfg = FIELD_CONFIG[key] || {min:-Infinity, max:Infinity, step:1};
+    return '<div class="item-field"><span class="flabel">' + label + '</span>' +
+      '<div class="stepper" data-key="' + key + '">' +
+        '<button class="dec" type="button">\u2212</button>' +
+        '<input type="number" class="stepper-input mono" value="' + value + '" min="' + cfg.min + '" max="' + cfg.max + '" step="' + cfg.step + '">' +
+        '<button class="inc" type="button">+</button>' +
+      '</div></div>';
+  }
+  function fieldSelect(key, label, value, options){
+    let opts = options.map(function(o){
+      return '<option value="' + o + '"' + (o === value ? ' selected' : '') + '>' + o + '</option>';
+    }).join('');
+    if(options.indexOf(value) === -1){
+      opts += '<option value="' + value + '" selected>' + value + '</option>';
+    }
+    return '<div class="item-field"><span class="flabel">' + label + '</span>' +
+      '<select class="mini" data-key="' + key + '">' + opts + '</select></div>';
+  }
+
+  function renderItemList(){
+    const list = document.getElementById('pg-item-list');
+    list.innerHTML = '';
+    document.getElementById('pg-item-count').textContent = pgItems.length;
+    pgItems.forEach(function(it, idx){
+      const row = document.createElement('div');
+      row.className = 'item-row' + (it.id === pgSelectedId ? ' selected' : '');
+      row.innerHTML =
+        '<div class="item-id ' + colorFor(idx) + '">' + it.id + '</div>' +
+        '<div class="item-fields">' +
+          fieldStepper('width', 'width (px)', it.width) +
+          fieldStepper('height', 'height (px)', it.height) +
+          fieldStepper('grow', 'flex-grow', it.grow) +
+          fieldStepper('shrink', 'flex-shrink', it.shrink) +
+          fieldSelect('basis', 'flex-basis', it.basis, ['auto','0','25%','50%','75%','100%','120px','200px']) +
+          fieldSelect('alignSelf', 'align-self', it.alignSelf, ['auto','flex-start','center','flex-end','stretch','baseline']) +
+          fieldStepper('order', 'order', it.order) +
+        '</div>' +
+        '<button class="remove-btn" type="button" title="ลบกล่องนี้">\u00d7</button>';
+
+      row.querySelectorAll('.stepper').forEach(function(st){
+        const key = st.dataset.key;
+        st.querySelector('.dec').addEventListener('click', function(e){ e.stopPropagation(); changeItem(it.id, key, -1); });
+        st.querySelector('.inc').addEventListener('click', function(e){ e.stopPropagation(); changeItem(it.id, key, 1); });
+        const inp = st.querySelector('.stepper-input');
+        inp.addEventListener('click', function(e){ e.stopPropagation(); });
+        inp.addEventListener('change', function(e){ e.stopPropagation(); setNumericItem(it.id, key, e.target.value); });
+        inp.addEventListener('keydown', function(e){
+          if(e.key === 'Enter'){ e.target.blur(); }
+        });
+      });
+      row.querySelectorAll('select.mini').forEach(function(sel){
+        sel.addEventListener('click', function(e){ e.stopPropagation(); });
+        sel.addEventListener('change', function(e){ setItem(it.id, sel.dataset.key, e.target.value); });
+      });
+      const removeBtn = row.querySelector('.remove-btn');
+      removeBtn.disabled = pgItems.length <= 1;
+      removeBtn.addEventListener('click', function(e){ e.stopPropagation(); removeItem(it.id); });
+
+      row.addEventListener('click', function(){
+        pgSelectedId = (pgSelectedId === it.id) ? null : it.id;
+        renderAll();
+      });
+      list.appendChild(row);
+    });
+    document.getElementById('pg-add-box').disabled = pgItems.length >= 6;
+  }
+
+  function changeItem(id, key, dir){
+    const it = pgItems.find(function(x){ return x.id === id; });
+    if(!it) return;
+    const cfg = FIELD_CONFIG[key] || {min:0, max:Infinity, step:1};
+    let v = it[key] + dir * cfg.step;
+    v = Math.max(cfg.min, Math.min(cfg.max, v));
+    it[key] = v;
+    renderAll();
+  }
+  function setNumericItem(id, key, rawValue){
+    const it = pgItems.find(function(x){ return x.id === id; });
+    if(!it) return;
+    const cfg = FIELD_CONFIG[key] || {min:-Infinity, max:Infinity, step:1};
+    let v = parseFloat(rawValue);
+    if(isNaN(v)) v = it[key];
+    v = Math.max(cfg.min, Math.min(cfg.max, v));
+    it[key] = v;
+    renderAll();
+  }
+  function setItem(id, key, value){
+    const it = pgItems.find(function(x){ return x.id === id; });
+    if(!it) return;
+    it[key] = value;
+    renderAll();
+  }
+  function removeItem(id){
+    if(pgItems.length <= 1) return;
+    pgItems = pgItems.filter(function(x){ return x.id !== id; });
+    if(pgSelectedId === id) pgSelectedId = null;
+    renderAll();
+  }
+  function addBox(){
+    if(pgItems.length >= 6) return;
+    pgItems.push({id: pgNextId++, grow:0, shrink:1, basis:'auto', alignSelf:'auto', order:0, width:56, height:56});
+    renderAll();
+  }
+
+  function renderCode(){
+    const c = pgContainer;
+    const lines = [];
+    lines.push('<span class="k">.container</span> <span class="punct">{</span>');
+    lines.push('&nbsp;&nbsp;<span class="p">display</span><span class="punct">:</span> <span class="v">flex</span><span class="punct">;</span>');
+    lines.push('&nbsp;&nbsp;<span class="p">flex-direction</span><span class="punct">:</span> <span class="v">' + c['flex-direction'] + '</span><span class="punct">;</span>');
+    lines.push('&nbsp;&nbsp;<span class="p">flex-wrap</span><span class="punct">:</span> <span class="v">' + c['flex-wrap'] + '</span><span class="punct">;</span>');
+    lines.push('&nbsp;&nbsp;<span class="p">justify-content</span><span class="punct">:</span> <span class="v">' + c['justify-content'] + '</span><span class="punct">;</span>');
+    lines.push('&nbsp;&nbsp;<span class="p">align-items</span><span class="punct">:</span> <span class="v">' + c['align-items'] + '</span><span class="punct">;</span>');
+    lines.push('&nbsp;&nbsp;<span class="p">gap</span><span class="punct">:</span> <span class="v">' + c.gap + 'px</span><span class="punct">;</span>');
+    lines.push('<span class="punct">}</span>');
+
+    pgItems.forEach(function(it){
+      const overrides = [];
+      if(it.width !== 56) overrides.push(['width', it.width + 'px']);
+      if(it.height !== 56) overrides.push(['height', it.height + 'px']);
+      if(it.grow !== 0) overrides.push(['flex-grow', it.grow]);
+      if(it.shrink !== 1) overrides.push(['flex-shrink', it.shrink]);
+      if(it.basis !== 'auto') overrides.push(['flex-basis', it.basis]);
+      if(it.alignSelf !== 'auto') overrides.push(['align-self', it.alignSelf]);
+      if(it.order !== 0) overrides.push(['order', it.order]);
+      if(overrides.length){
+        lines.push('');
+        lines.push('<span class="k">#box-' + it.id + '</span> <span class="punct">{</span>');
+        overrides.forEach(function(o){
+          lines.push('&nbsp;&nbsp;<span class="p">' + o[0] + '</span><span class="punct">:</span> <span class="v">' + o[1] + '</span><span class="punct">;</span>');
+        });
+        lines.push('<span class="punct">}</span>');
+      }
+    });
+    document.getElementById('pg-code').innerHTML = lines.join('<br>');
+  }
+
+  function renderPgMeasurements(){
+    renderGapRuler(document.getElementById('pg-flex'), document.getElementById('pg-ruler'), document.getElementById('pg-flex-size'));
+  }
+
+  function renderAll(){
+    renderStage();
+    renderItemList();
+    renderCode();
+    renderPgMeasurements();
+  }
+
+  document.querySelectorAll('.pillrow[data-pgprop]').forEach(function(row){
+    const prop = row.dataset.pgprop;
+    row.querySelectorAll('button.pill').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        row.querySelectorAll('button.pill').forEach(function(b){ b.classList.remove('active'); });
+        btn.classList.add('active');
+        pgContainer[prop] = btn.dataset.value;
+        renderAll();
+      });
+    });
+  });
+
+  document.getElementById('pg-gap-slider').addEventListener('input', function(e){
+    pgContainer.gap = parseInt(e.target.value, 10);
+    document.getElementById('pg-gap-value').textContent = pgContainer.gap + 'px';
+    renderAll();
+  });
+
+  document.getElementById('pg-width-slider').addEventListener('input', function(e){
+    const v = e.target.value + 'px';
+    document.getElementById('pg-width-value').textContent = v;
+    document.getElementById('pg-wrap').style.width = v;
+    renderPgMeasurements();
+  });
+
+  document.getElementById('pg-add-box').addEventListener('click', addBox);
+
+  if('ResizeObserver' in window){
+    const roPg = new ResizeObserver(function(){ renderPgMeasurements(); });
+    roPg.observe(document.getElementById('pg-wrap'));
+  } else {
+    window.addEventListener('resize', renderPgMeasurements);
+  }
+
+  renderAll();
+  window.addEventListener('load', function(){ renderAll(); });
+  setTimeout(function(){ renderAll(); renderAllJC(); }, 300); // safety pass after webfonts settle
+</script>
+
+</body>
+</html>
