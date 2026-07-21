@@ -1,0 +1,39 @@
+.card{
+border: 3px solid rgba(192, 192, 192, 0.658);
+background-color: #eeeeee;
+display: flex;
+font-family: "Sofia Sans", sans-serif;
+width: 1100px;
+height: 550px;
+}
+
+.imagePic__card{
+border-radius: 20px;
+width: 400px ;
+box-shadow: 15px 15px 0px 0px rgb(55, 100, 221);
+margin: 30px 60px; 
+}
+
+.detail__card{
+padding-right: 80px;
+}
+
+.header__card{
+    font-size: 24px;
+line-height: 44px;
+padding-top: 20px;
+}
+
+.paragraph__card{
+line-height: 24px;
+margin-bottom: 16px;
+}
+
+.moreDetail__card{
+    border-radius: 10px;
+    font-weight: bold;
+    background-color: skyblue;
+    padding: 10px;
+    box-shadow: 4px 4px;
+    
+}

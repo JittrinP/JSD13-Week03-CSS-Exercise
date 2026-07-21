@@ -1,0 +1,27 @@
+.card {
+  border: 1px solid black;
+  width: 650px;
+  background-color: rgb(238, 238, 238);
+  font-family: "Google Sans Flex", sans-serif;
+  height: 472px;
+}
+
+h1 {
+  line-height: 66px;
+  padding-left: 24px;
+  font-size: 68px;
+  font-weight: bold;
+  width: 600px;
+  margin: 0;
+}
+
+p {
+  padding: 0px 0px 12px 24px;
+  font-size: 10px;
+  width: 400px;
+  font-weight: bold;
+}
+
+img {
+  width: 650px;
+}
