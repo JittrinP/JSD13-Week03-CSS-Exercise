@@ -1,0 +1,745 @@
+/********** Max 2400px **********/
+
+@media only screen and (min-width: 720px) and (max-width: 2400px) {
+  body {
+    font-family: "Source Serif 4", serif;
+  
+  }
+
+  .nav_card {
+    box-sizing: border-box;
+
+    display: flex;
+    justify-content: space-between;
+    background-color: rgb(0, 0, 66);
+    font-size: 1.5rem;
+    color: white;
+
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .nav_card img {
+    max-width: 70px;
+    height: auto;
+    padding: 0.4em;
+    box-sizing: border-box;
+  }
+
+  .left_nav_card {
+
+    padding: 0px 0.5em;
+    display: flex;
+    width: 50%;
+    justify-content: flex-start;
+    align-items: center;
+    box-sizing: border-box;
+            flex-wrap: wrap;
+  }
+
+  .left_nav_card *,
+  .right_nav_card * {
+    padding: 0px .5em;
+  }
+
+  .right_nav_card {
+
+    padding: 0.5em;
+    display: flex;
+    width: 50%;
+    justify-content: flex-end;
+    align-items: center;
+    box-sizing: border-box;
+            flex-wrap: wrap;
+  }
+
+  .aboutMe_card {
+    background: linear-gradient(to right, rgb(13, 56, 150), rgb(0, 0, 66));
+    color: white;
+    border-radius: 0px 0px 2em 2em;
+  }
+  .aboutMe_card > h2 {
+    margin: 0.1em;
+    font-size: 2.5em;
+    padding: 0.5em 1em 0em 1em;
+  }
+  .aboutMe_card p {
+    font-size: 0.7em;
+    line-height: 2.5em;
+    padding: 0em 1em;
+  }
+
+  .lower_detail_card {
+    background: linear-gradient(to left, rgb(13, 56, 150), rgb(0, 0, 66));
+    font-size: 2em;
+    margin: 0px;
+    padding: 0px 1em;
+    border-radius: 0px 0px 2em 2em;
+  }
+
+  .container_aboutMe_card {
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .container_aboutMe_card img {
+    width: 45%;
+    height: 45%;
+    padding: 1em;
+  }
+
+  .container_aboutMe_card div {
+    font-size: 2.3rem;
+    width: 50%;
+    text-align: center;
+    justify-content: space-evenly;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .products_card {
+    border-radius: 10%;
+
+    width: 100%;
+    background: linear-gradient(to right, rgb(13, 56, 150), rgb(0, 0, 66));
+  }
+  .products_card h2 {
+    color: #fff;
+    padding-left: 2em;
+    font-size: 2em;
+    margin: 0.2em;
+  }
+
+  .container_products_card {
+    border-radius: 10%;
+    padding: 1em;
+
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTC2lX1Mn_m_goWDqs-LXQ23bPncVfEkwQNY895gjveuI-ZAuJLh2dgHtu-&s=10");
+  }
+
+  .productItem_card {
+    box-sizing: border-box;
+    border: 6px double orange;
+    padding: 1em;
+    margin: 0.5em;
+    width: 300px;
+    justify-content: space-between;
+    display: flex;
+    flex-direction: column;
+    background-color: #ececec;
+    border-radius: 10%;
+      font-size: 1.2em;
+  }
+
+  .productItem_card img {
+    max-width: 100%;
+  }
+
+  .contact_card {
+
+    background-color: rgb(228, 228, 228);
+    margin-top: 0.5em;
+    border-radius: 3em;
+  }
+
+  .footer_tap {
+font-size: 1.3em;
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    flex-wrap: wrap;
+  }
+  .footer_tap div {
+
+    text-align: center;
+    width: 200px;
+  }
+  .social_link,
+  .copyRights {
+    text-align: center;
+  }
+
+  .social_link img {
+    max-width: 30px;
+  }
+
+  .contact_card button {
+    padding: 0.5em;
+    margin: 1em;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 3px 3px 3px 3px rgb(95, 94, 94);
+  }
+}
+
+/********** Max 720px **********/
+
+@media only screen and (max-width: 720px) and (min-width: 480px) {
+  body {
+    font-family: "Source Serif 4", serif;
+  margin-right: 1em;
+  }
+
+  .nav_card {
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    background-color: rgb(0, 0, 66);
+    font-size: 1rem;
+    color: white;
+
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .nav_card img {
+    max-width: 50px;
+    height: auto;
+    padding: 0.4em;
+    box-sizing: border-box;
+  }
+
+  .left_nav_card {
+
+    padding: 0px 0.5em;
+    display: flex;
+    width: 50%;
+    justify-content: flex-start;
+    align-items: center;
+    box-sizing: border-box;
+        flex-wrap: wrap;
+  }
+
+  .left_nav_card *,
+  .right_nav_card * {
+    padding: 0px 0.4em;
+  }
+
+  .right_nav_card {
+
+    padding: 0.5em;
+    display: flex;
+    width: 50%;
+    justify-content: flex-end;
+    align-items: center;
+    box-sizing: border-box;
+        flex-wrap: wrap;
+  }
+
+  .aboutMe_card {
+    background: linear-gradient(to right, rgb(13, 56, 150), rgb(0, 0, 66));
+    color: white;
+    border-radius: 0px 0px 2em 2em;
+  }
+  .aboutMe_card > h2 {
+    margin: 0.1em;
+    font-size: 2em;
+    padding: 0px 1em;
+  }
+  .aboutMe_card p {
+    font-size: 0.7em;
+    line-height: 1.2em;
+    padding: 0em 0.3em;
+    margin-right: 1em;
+  }
+
+  .lower_detail_card {
+    background: linear-gradient(to left, rgb(13, 56, 150), rgb(0, 0, 66));
+    font-size: 2em;
+    margin: 0px;
+    padding: 0px 0em 0.05em 1em;
+    border-radius: 0px 0px 2em 2em;
+  }
+
+  .lower_detail_card h2{
+    font-size: 1em;
+    
+  }
+  .container_aboutMe_card {
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .container_aboutMe_card img {
+    width: 45%;
+    height: 45%;
+    padding: 1em;
+  }
+
+  .container_aboutMe_card div {
+    font-size: 2rem;
+    width: 50%;
+    text-align: center;
+    justify-content: space-evenly;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .products_card {
+    margin-top: 0.5em;
+    border-radius: 10%;
+
+    width: 100%;
+    background: linear-gradient(to right, rgb(13, 56, 150), rgb(0, 0, 66));
+  }
+  .products_card h2 {
+    color: #fff;
+    padding-left: 1.5em;
+    font-size: 2em;
+    margin: 0.2em;
+  }
+
+  .container_products_card {
+    border-radius: 10%;
+    padding: 1em;
+
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTC2lX1Mn_m_goWDqs-LXQ23bPncVfEkwQNY895gjveuI-ZAuJLh2dgHtu-&s=10");
+  }
+
+  .productItem_card {
+    box-sizing: border-box;
+    border: 6px double orange;
+    padding: 1em;
+    margin: 0.5em;
+    width: 300px;
+    justify-content: space-between;
+    display: flex;
+    flex-direction: column;
+    background-color: #ececec;
+    border-radius: 10%;
+    font-size: 1.2em;
+  }
+
+  .productItem_card img {
+    max-width: 100%;
+  }
+
+  .contact_card {
+
+    background-color: rgb(228, 228, 228);
+    margin-top: 0.5em;
+    border-radius: 3em;
+  }
+
+  .footer_tap {
+font-size: 1.2em;
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    flex-wrap: wrap;
+  }
+  .footer_tap div {
+    text-align: center;
+    width: 200px;
+  }
+  .social_link,
+  .copyRights {
+    text-align: center;
+  }
+
+  .social_link img {
+    max-width: 30px;
+  }
+
+  .contact_card button {
+    padding: 0.5em;
+    margin: 1em;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 3px 3px 3px 3px rgb(95, 94, 94);
+  }
+}
+
+
+
+/********** Max 480px **********/
+
+@media only screen and (max-width: 480px) and (min-width: 360px){
+  body {
+    font-family: "Source Serif 4", serif;
+  margin-right: 1em;
+  }
+
+  .nav_card {
+    box-sizing: border-box;
+
+    display: flex;
+    justify-content: space-between;
+    background-color: rgb(0, 0, 66);
+    font-size: 0.5rem;
+    color: white;
+
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .nav_card img {
+    max-width: 50px;
+    height: auto;
+    padding: 0.4em;
+    box-sizing: border-box;
+  }
+
+  .left_nav_card {
+
+    padding: 0px 0.5em;
+    display: flex;
+    width: 50%;
+    justify-content: flex-start;
+    align-items: center;
+    box-sizing: border-box;
+        flex-wrap: wrap;
+  }
+
+  .left_nav_card *,
+  .right_nav_card * {
+    padding: 0px 0.4em;
+  }
+
+  .right_nav_card {
+
+    padding: 0.5em;
+    display: flex;
+    width: 50%;
+    justify-content: flex-end;
+    align-items: center;
+    box-sizing: border-box;
+        flex-wrap: wrap;
+  }
+
+  .aboutMe_card {
+    background: linear-gradient(to right, rgb(13, 56, 150), rgb(0, 0, 66));
+    color: white;
+    border-radius: 0px 0px 2em 2em;
+  }
+  .aboutMe_card > h2 {
+    margin: 0.1em;
+    font-size: 1.5em;
+    padding: 0px 1em;
+  }
+  .aboutMe_card p {
+    font-size: 0.4em;
+    line-height: 1.5em;
+    padding: 0em 0.3em;
+    margin-right: 1em;
+  }
+
+  .lower_detail_card {
+    background: linear-gradient(to left, rgb(13, 56, 150), rgb(0, 0, 66));
+    font-size: 2em;
+    margin: 0px;
+    padding: 0px 0em 0.05em 1em;
+    border-radius: 0px 0px 2em 2em;
+  }
+
+  .lower_detail_card h2{
+    font-size: 1em;
+
+  }
+  .container_aboutMe_card {
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .container_aboutMe_card img {
+    width: 45%;
+    height: 45%;
+    padding: 1em;
+  }
+
+  .container_aboutMe_card div {
+    font-size: 2rem;
+    width: 50%;
+    text-align: center;
+    justify-content: space-evenly;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .products_card {
+    margin-top: 0.5em;
+    border-radius: 10%;
+
+    width: 100%;
+    background: linear-gradient(to right, rgb(13, 56, 150), rgb(0, 0, 66));
+  }
+  .products_card h2 {
+    color: #fff;
+    padding-left: 1em;
+    font-size: 1.5em;
+    margin: 0.2em;
+  }
+
+  .container_products_card {
+    border-radius: 10%;
+    padding: 1em;
+
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTC2lX1Mn_m_goWDqs-LXQ23bPncVfEkwQNY895gjveuI-ZAuJLh2dgHtu-&s=10");
+  }
+
+  .productItem_card {
+    box-sizing: border-box;
+    border: 6px double orange;
+    padding: 1em;
+    margin: 0.5em;
+    width: 300px;
+    justify-content: space-between;
+    display: flex;
+    flex-direction: column;
+    background-color: #ececec;
+    border-radius: 10%;
+  }
+
+  .productItem_card img {
+    max-width: 100%;
+  }
+
+  .contact_card {
+
+    background-color: rgb(228, 228, 228);
+    margin-top: 0.5em;
+    border-radius: 3em;
+  }
+
+  .footer_tap {
+
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    flex-wrap: wrap;
+  }
+  .footer_tap div {
+
+    text-align: center;
+    width: 200px;
+  }
+  .social_link,
+  .copyRights {
+    text-align: center;
+  }
+
+  .social_link img {
+    max-width: 30px;
+  }
+
+  .contact_card button {
+    padding: 0.5em;
+    margin: 1em;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 3px 3px 3px 3px rgb(95, 94, 94);
+  }
+}
+
+
+
+
+/********** Max 360px **********/
+
+@media only screen and (max-width: 360px) {
+  body {
+    font-family: "Source Serif 4", serif;
+  
+  }
+
+  .nav_card {
+    box-sizing: border-box;
+
+    display: flex;
+    justify-content: space-between;
+    background-color: rgb(0, 0, 66);
+    font-size: 0.5rem;
+    color: white;
+
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .nav_card img {
+    max-width: 50px;
+    height: auto;
+    padding: 0.4em;
+    box-sizing: border-box;
+  }
+
+  .left_nav_card {
+
+    padding: 0px 0.5em;
+    display: flex;
+    width: 50%;
+    justify-content: flex-start;
+    align-items: center;
+    box-sizing: border-box;
+        flex-wrap: wrap;
+  }
+
+  .left_nav_card *,
+  .right_nav_card * {
+    padding: 0px 1em;
+  }
+
+  .right_nav_card {
+
+    padding: 0.5em;
+    display: flex;
+    width: 50%;
+    justify-content: flex-end;
+    align-items: center;
+    box-sizing: border-box;
+        flex-wrap: wrap;
+  }
+
+  .aboutMe_card {
+    background: linear-gradient(to right, rgb(13, 56, 150), rgb(0, 0, 66));
+    color: white;
+    border-radius: 0px 0px 2em 2em;
+  }
+  .aboutMe_card > h2 {
+    margin: 0.1em;
+    font-size: 1.5em;
+    padding: 0px 1em;
+  }
+  .aboutMe_card p {
+    font-size: 0.4em;
+    line-height: 1.5em;
+    padding: 0em 0.3em;
+    margin-right: 1em;
+  }
+
+  .lower_detail_card {
+    background: linear-gradient(to left, rgb(13, 56, 150), rgb(0, 0, 66));
+    font-size: 1.5em;
+    margin: 0px;
+    padding: 0px 1em 0.05em 1em;
+    border-radius: 0px 0px 2em 2em;
+  }
+
+  .lower_detail_card h2{
+    font-size: 1em;
+  }
+  .container_aboutMe_card {
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .container_aboutMe_card img {
+    width: 45%;
+    height: 45%;
+    padding: 1em;
+  }
+
+  .container_aboutMe_card div {
+    font-size: 2rem;
+    width: 50%;
+    text-align: center;
+    justify-content: space-evenly;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .products_card {
+    margin-top: 0.5em;
+    border-radius: 10%;
+
+    width: 100%;
+    background: linear-gradient(to right, rgb(13, 56, 150), rgb(0, 0, 66));
+  }
+  .products_card h2 {
+    color: #fff;
+    padding-left: 1em;
+    font-size: 1.5em;
+    margin: 0.2em;
+  }
+
+  .container_products_card {
+    border-radius: 10%;
+    padding: 1em;
+
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTC2lX1Mn_m_goWDqs-LXQ23bPncVfEkwQNY895gjveuI-ZAuJLh2dgHtu-&s=10");
+  }
+
+  .productItem_card {
+    box-sizing: border-box;
+    border: 6px double orange;
+    padding: 1em;
+    margin: 0.5em;
+    width: 300px;
+    justify-content: space-between;
+    display: flex;
+    flex-direction: column;
+    background-color: #ececec;
+    border-radius: 10%;
+  }
+
+  .productItem_card img {
+    max-width: 100%;
+  }
+
+  .contact_card {
+
+    background-color: rgb(228, 228, 228);
+    margin-top: 0.5em;
+    border-radius: 3em;
+  }
+
+  .footer_tap {
+
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    flex-wrap: wrap;
+  }
+  .footer_tap div {
+
+    text-align: center;
+    width: 200px;
+  }
+  .social_link,
+  .copyRights {
+    text-align: center;
+  }
+
+  .social_link img {
+    max-width: 30px;
+  }
+
+  .contact_card button {
+    padding: 0.5em;
+    margin: 1em;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 3px 3px 3px 3px rgb(95, 94, 94);
+  }
+}
